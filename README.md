@@ -1,7 +1,7 @@
 # upswing
 
-## REQUIMENT 
-- brew install rabbit_mq
+## REQUIREMENT 
+- `brew install rabbit_mq`
 - pip3 install -r requirements.txt
 - cp .env.example .env
 
