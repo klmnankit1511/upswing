@@ -1,9 +1,16 @@
 import subprocess
 import time
 import os
+import pika
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
+
+def queue_conn():
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters('localhost', 5672))
+    channel = connection.channel()
+    return channel
 
 def start_rabbitmq():
     print("Starting RabbitMQ...")

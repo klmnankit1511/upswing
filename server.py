@@ -1,13 +1,13 @@
 import pika
 import json
 from fastapi import FastAPI
-from app import connect_db
+from app import connect_db, queue_conn
 
 app = FastAPI()
 
 client = connect_db()
 db = client['mqtt_db']
-collection = db['mqtt_collection']
+collection = db['mqtt_collections']
 
 def callback(ch, method, properties, body):
     message = json.loads(body)
@@ -15,11 +15,10 @@ def callback(ch, method, properties, body):
     print(f"Received and stored: {message}")
 
 def start_consumer():
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
-    channel = connection.channel()
+    channel = queue_conn()
 
-    channel.queue_declare(queue='mqtt_queue')
-    channel.basic_consume(queue='mqtt_queue', on_message_callback=callback, auto_ack=True)
+    channel.queue_declare(queue='status_queue')
+    channel.basic_consume(queue='status_queue', on_message_callback=callback, auto_ack=True)
 
     print('Waiting for messages...')
     channel.start_consuming()
