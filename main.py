@@ -6,8 +6,6 @@ import time
 def send_message():
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
     channel = connection.channel()
-
-    # Declare the queue where messages will be sent
     channel.queue_declare(queue='mqtt_queue')
 
     while True:

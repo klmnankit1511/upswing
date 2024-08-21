@@ -61,5 +61,5 @@ def start_client():
 
 if __name__ == '__main__':
     if start_server():
-        time.sleep(5)  # Give the server some time to start
+        time.sleep(5)
         start_client()
